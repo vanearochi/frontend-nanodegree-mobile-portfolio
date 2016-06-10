@@ -382,7 +382,7 @@ var makeRandomPizza = function() {
   var numberOfNonMeats =numberOfEachIngredient(3);
   var numberOfCheeses = numberOfEachIngredient(2);
   var a = selectRandomIngredient("sauces", 1);
-  //console.log(a)
+  console.log(a)
 
    pizza = selectRandomIngredient("meats", numberOfMeats) + selectRandomIngredient("nonMeats", numberOfNonMeats) +
    selectRandomIngredient("cheeses", numberOfCheeses) + selectRandomIngredient("sauces", 1) +
@@ -600,28 +600,20 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
 // Moves the sliding background pizzas based on scroll position
-//function updatePositions() {
+function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
   var items = document.querySelectorAll('.mover');
   var itemsLength= items.length;
-  var a = window.scrollY;
-
-
-  //console.log(a)
+  var a = document.body.scrollTop
   //console.log(item)
-
   for (var i = 0; i < itemsLength; i++) {
     //Duda que es 1250?
     var phase = Math.sin((a / 1250) + (i % 5));
-    var offset = items[i].basicLeft;
-    console.log(offset)
-    //console.log(items[i].style.left)
-    //items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-    items[i].style.transform = "translateX("+items[i].style.transform + 100 * phase +"px)";
-
-  //}
+    //console.log(phase)
+    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+  }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
@@ -642,15 +634,15 @@ function createElem(htmlElement){
 
 }
 
-//console.log(window.height)
-  //console.log(screen.height)
-  //console.log(screen.width)
+console.log(window.height)
+  console.log(screen.height)
+  console.log(screen.width)
 
 // runs updatePositions on scroll
-//window.addEventListener('scroll', updatePositions);
+window.addEventListener('scroll', updatePositions);
 
 // Generates the sliding pizzas when the page loads.
-//document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
   //what the hell are these val?
   var cols = 8;
   var s = 256;
@@ -664,34 +656,27 @@ function createElem(htmlElement){
     elem.style.height = "100px";
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
-    //elem.id = 'mover' + i;
-    elem.style.transform = "translateX("+(i % cols) * s+")";
-    //console.log(elem.basicLeft)
-    console.log(i%cols)
+    //console.log(i%cols)
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    //console.log(elem.style.top)
-
     document.querySelector("#movingPizzas1").appendChild(elem);
   }
-  //updatePositions();
+  updatePositions();
 
-//});
+});
 
 var latestKnownScrollY = 0,
   ticking = false;
 
-  window.onscroll=function(){
-
-
+function onScroll() {
   latestKnownScrollY = window.scrollY;
-  //console.log(latestKnownScrollY)
+  console.log(latestKnownScrollY)
   requestTick();
 }
 
 function requestTick() {
   if(!ticking) {
-    //console.log("bla")
-    requestAnimationFrame(update);
+    console.log("bla")
+    //requestAnimationFrame(update);
   }
   ticking = true;
 }
@@ -702,16 +687,6 @@ function update() {
   ticking = false;
 
   var currentScrollY = latestKnownScrollY;
-  var moverElem = document.getElementsByClassName("mover")
-  var offsetLeft = moverElem[0].offsetLeft;
-  var diff = currentScrollY-offsetLeft;
-
-  //console.log(currentScrollY-offsetLeft)
-//moverElem[0].style.transform = "translateX("+ 100*.5 + "px)"
-//moverElem[0].style.transform = "translateX("+ 200 + "px)"
-  moverElem[0].className= "mover collapse"
-//document.getElementById("mover1").className = "mover collapse";
-//document.getElementById("mover1").className = "mover show";
 
 
   // read offset of DOM elements
@@ -719,22 +694,6 @@ function update() {
   // then apply some CSS classes
   // to the visible items
 }
-//update()
 
-//top
-// 0px
-// 256px
-// 512px
-// 768px
-// 1024px
 
-//left
-// 0
-// 256
-// 512
-// 768
-// 1024
-// 1280
-// 1536
-// 1792
-//onScroll();
+onScroll();
