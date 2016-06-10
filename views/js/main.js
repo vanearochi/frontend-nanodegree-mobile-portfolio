@@ -382,7 +382,7 @@ var makeRandomPizza = function() {
   var numberOfNonMeats =numberOfEachIngredient(3);
   var numberOfCheeses = numberOfEachIngredient(2);
   var a = selectRandomIngredient("sauces", 1);
-  console.log(a)
+  //console.log(a)
 
    pizza = selectRandomIngredient("meats", numberOfMeats) + selectRandomIngredient("nonMeats", numberOfNonMeats) +
    selectRandomIngredient("cheeses", numberOfCheeses) + selectRandomIngredient("sauces", 1) +
@@ -600,30 +600,30 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
 // Moves the sliding background pizzas based on scroll position
-function updatePositions() {
-  frame++;
-  window.performance.mark("mark_start_frame");
+// //function updatePositions() {
+//   frame++;
+//   window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');
-  var itemsLength= items.length;
-  var a = document.body.scrollTop
-  //console.log(item)
-  for (var i = 0; i < itemsLength; i++) {
-    //Duda que es 1250?
-    var phase = Math.sin((a / 1250) + (i % 5));
-    //console.log(phase)
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-  }
+//   var items = document.querySelectorAll('.mover');
+//   var itemsLength= items.length;
+//   var a = document.body.scrollTop
+//   //console.log(item)
+//   for (var i = 0; i < itemsLength; i++) {
+//     //Duda que es 1250?
+//     var phase = Math.sin((a / 1250) + (i % 5));
+//     //console.log(phase)
+//     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+//   }
 
-  // User Timing API to the rescue again. Seriously, it's worth learning.
-  // Super easy to create custom metrics.
-  window.performance.mark("mark_end_frame");
-  window.performance.measure("measure_frame_duration", "mark_start_frame", "mark_end_frame");
-  if (frame % 10 === 0) {
-    var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
-    logAverageFrame(timesToUpdatePosition);
-  }
-}
+//   // User Timing API to the rescue again. Seriously, it's worth learning.
+//   // Super easy to create custom metrics.
+//   window.performance.mark("mark_end_frame");
+//   window.performance.measure("measure_frame_duration", "mark_start_frame", "mark_end_frame");
+//   if (frame % 10 === 0) {
+//     var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
+//     logAverageFrame(timesToUpdatePosition);
+//   }
+// }
 
 
 
@@ -634,15 +634,15 @@ function createElem(htmlElement){
 
 }
 
-console.log(window.height)
-  console.log(screen.height)
-  console.log(screen.width)
+//console.log(window.height)
+  //console.log(screen.height)
+  //console.log(screen.width)
 
 // runs updatePositions on scroll
-window.addEventListener('scroll', updatePositions);
+//window.addEventListener('scroll', updatePositions);
 
 // Generates the sliding pizzas when the page loads.
-document.addEventListener('DOMContentLoaded', function() {
+//document.addEventListener('DOMContentLoaded', function() {
   //what the hell are these val?
   var cols = 8;
   var s = 256;
@@ -660,23 +660,24 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.querySelector("#movingPizzas1").appendChild(elem);
   }
-  updatePositions();
+  //updatePositions();
 
-});
+//});
 
 var latestKnownScrollY = 0,
-  ticking = false;
+    ticking = false;
 
-function onScroll() {
+window.onscroll = function(){
   latestKnownScrollY = window.scrollY;
   console.log(latestKnownScrollY)
   requestTick();
 }
 
 function requestTick() {
+  console.log("tick")
   if(!ticking) {
     console.log("bla")
-    //requestAnimationFrame(update);
+    requestAnimationFrame(update);
   }
   ticking = true;
 }
@@ -685,10 +686,25 @@ function update() {
   // reset the tick so we can
   // capture the next onScroll
   ticking = false;
+  frame++;
+ window.performance.mark("mark_start_frame");
 
-  var currentScrollY = latestKnownScrollY;
-
-
+  var items = document.querySelectorAll('.mover');
+  var itemsLength= items.length;
+  var a = document.body.scrollTop
+  //console.log(item)
+  for (var i = 0; i < itemsLength; i++) {
+    //Duda que es 1250?
+    var phase = Math.sin((a / 1250) + (i % 5));
+    //console.log(phase)
+    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+  }
+  window.performance.mark("mark_end_frame");
+  window.performance.measure("measure_frame_duration", "mark_start_frame", "mark_end_frame");
+  if (frame % 10 === 0) {
+  var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
+  logAverageFrame(timesToUpdatePosition);
+  }
   // read offset of DOM elements
   // and compare to the currentScrollY value
   // then apply some CSS classes
@@ -696,4 +712,4 @@ function update() {
 }
 
 
-onScroll();
+
