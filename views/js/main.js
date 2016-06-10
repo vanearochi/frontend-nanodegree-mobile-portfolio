@@ -641,6 +641,13 @@ function createElem(htmlElement){
 // runs updatePositions on scroll
 //window.addEventListener('scroll', updatePositions);
 
+var worker = new Worker('workers.js');
+
+worker.addEventListener('message', function(e) {
+  console.log('Worker said: ', e.data);
+}, false);
+
+worker.postMessage('Hello World');
 // Generates the sliding pizzas when the page loads.
 //document.addEventListener('DOMContentLoaded', function() {
   //what the hell are these val?
@@ -656,6 +663,7 @@ function createElem(htmlElement){
     elem.style.height = "100px";
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
+    //elem.style.transform = "translate("+(i % cols) * s+"px)"
     //console.log(i%cols)
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.querySelector("#movingPizzas1").appendChild(elem);
@@ -666,17 +674,18 @@ function createElem(htmlElement){
 
 var latestKnownScrollY = 0,
     ticking = false;
+window.addEventListener('scroll', onScroll);
 
-window.onscroll = function(){
+function onScroll (){
   latestKnownScrollY = window.scrollY;
-  console.log(latestKnownScrollY)
+  //console.log(latestKnownScrollY)
   requestTick();
 }
 
 function requestTick() {
-  console.log("tick")
+  //console.log("tick")
   if(!ticking) {
-    console.log("bla")
+    //console.log("bla")
     requestAnimationFrame(update);
   }
   ticking = true;
@@ -698,6 +707,7 @@ function update() {
     var phase = Math.sin((a / 1250) + (i % 5));
     //console.log(phase)
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    //items[i].style.transform = "translate("+items[i].style.transform + 100 * phase +"px)"
   }
   window.performance.mark("mark_end_frame");
   window.performance.measure("measure_frame_duration", "mark_start_frame", "mark_end_frame");
@@ -710,6 +720,7 @@ function update() {
   // then apply some CSS classes
   // to the visible items
 }
+update()
 
 
 
