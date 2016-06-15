@@ -15,6 +15,8 @@ Creator:
 Cameron Pittman, Udacity Course Developer
 cameron *at* udacity *dot* com
 */
+var first = document.querySelector("pizza1")
+
 
 // As you may have realized, this website randomly generates pizzas.
 // Here are arrays of all possible pizza ingredients.
@@ -320,7 +322,7 @@ var ingredientItemizer = function(string) {
   return "<li>" + string + "</li>";
 };
 
-
+//
 var selectRandomIngredient = function(ingredient, numItems){
   var ingredientArray = pizzaIngredients[ingredient];
   var ingredientArrayLength = ingredientArray.length;
@@ -484,7 +486,7 @@ var resizePizzas = function(size) {
 
    // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSizes(size).
    //2
-  function determineDx (elem, size) {
+  //function determineDx (elem, size) {
     //elem es el elemento pizza container
     //console.log(elem);
     //console.log(size);
@@ -493,53 +495,55 @@ var resizePizzas = function(size) {
     //console.log(elem)
     //console.log(oldWidth)
 
-    var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
-    //console.log(windowWidth)
-    var oldSize = oldWidth / windowWidth;
+    // var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
+    //  var oldWidth = document.querySelector(".randomPizzaContainer").offsetWidth;
+    // //console.log(windowWidth)
+    // var oldSize = oldWidth / windowWidth;
+    var newwidth;
     //console.log(oldSize)
 
     // Changes the slider value to a percent width
     //2.1
-    function sizeSwitcher (size) {
+    function changePizzaSizes(size) {
+
       switch(size) {
         case "1":
-          return 0.25;
+         newwidth = 25;
+         break
         case "2":
-          return 0.3333;
+          newwidth = 33;
+          break
         case "3":
-          return 0.5;
+          newwidth = 50;
+          break
         default:
           console.log("bug in sizeSwitcher");
       }
-    }
 
-    var newSize = sizeSwitcher(size);
-    //console.log(newSize)
-    var dx = (newSize - oldSize) * windowWidth;
-    //console.log(dx);
 
-    return dx;
-  }
+    var bla = document.querySelectorAll(".randomPizzaContainer")
+
+
 
   // Iterates through pizza elements on the page and changes their widths
   //3
-  var oldWidth = document.querySelector(".randomPizzaContainer").offsetWidth;
-  var oldWidth2 = document.querySelector(".randomPizzaContainer").offsetWidth;
-  console.log(oldWidth2)
 
-  function changePizzaSizes(size) {
+  //var oldWidth2 = document.querySelector(".randomPizzaContainer").offsetWidth;
+  //console.log(oldWidth2)
+
+
     //var a = document.querySelectorAll(".randomPizzaContainer")[3];
     //console.log(a);
     //var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[1], size);
     //console.log(size)
-    var bla = document.querySelectorAll(".randomPizzaContainer")
 
 
-    var dx = determineDx(bla, size);
 
-    //console.log(oldWidth)
-    var newwidth = (oldWidth + dx) + 'px';
-    //console.log(newwidth)
+    // var dx = determineDx(bla, size);
+
+    // //console.log(oldWidth)
+    // var newwidth = (oldWidth + dx) + 'px';
+    // //console.log(newwidth)
 
     //console.log(bla)
     //TODO el valor de dx es igual en cada iteracion por lo que se necesita sacar solo una vez, de igual manera el newwidth
@@ -553,7 +557,7 @@ var resizePizzas = function(size) {
       //the element horizontal padding, the element vertical scrollbar (if present, if rendered) and the element CSS width.
       //var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
       //console.log(newwidth)
-      bla[i].style.width = newwidth;
+      bla[i].style.width = newwidth + "%";
        //console.log(newwidth)
     }
   }
@@ -641,20 +645,14 @@ function createElem(htmlElement){
 // runs updatePositions on scroll
 //window.addEventListener('scroll', updatePositions);
 
-var worker = new Worker('workers.js');
 
-worker.addEventListener('message', function(e) {
-  console.log('Worker said: ', e.data);
-}, false);
-
-worker.postMessage('Hello World');
 // Generates the sliding pizzas when the page loads.
 //document.addEventListener('DOMContentLoaded', function() {
   //what the hell are these val?
   var cols = 8;
   var s = 256;
   //createColumns()
-
+  var leftPosition = [100, 356, 612, 868, 1124, 1380, 1636, 1892]
 
   for (var i = 0; i < 40; i++) {
     var elem = createElem('img');
@@ -662,9 +660,11 @@ worker.postMessage('Hello World');
     elem.src = "images/pizza.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
-    elem.basicLeft = (i % cols) * s;
+    elem.style.left = leftPosition[i % cols]+ "px"
+    elem.style.transform = "translateX("+0 +"px)"  ;
+    //elem.basicLeft = (i % cols) * s;
     //elem.style.transform = "translate("+(i % cols) * s+"px)"
-    //console.log(i%cols)
+    console.log(i%cols)
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.querySelector("#movingPizzas1").appendChild(elem);
   }
@@ -686,7 +686,9 @@ function requestTick() {
   //console.log("tick")
   if(!ticking) {
     //console.log("bla")
+
     requestAnimationFrame(update);
+
   }
   ticking = true;
 }
@@ -700,14 +702,29 @@ function update() {
 
   var items = document.querySelectorAll('.mover');
   var itemsLength= items.length;
-  var a = document.body.scrollTop
+  //var a = document.body.scrollTop
   //console.log(item)
+
+
   for (var i = 0; i < itemsLength; i++) {
     //Duda que es 1250?
-    var phase = Math.sin((a / 1250) + (i % 5));
-    //console.log(phase)
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-    //items[i].style.transform = "translate("+items[i].style.transform + 100 * phase +"px)"
+    var phase = Math.sin((latestKnownScrollY / 1250) + (i % 5));
+    //console.log(i)
+
+    // if(items[i].classList.contains('visible')){
+    //     items[i].classList.add("hidden");
+    //     items[i].classList.remove("visible")
+    //     console.log(1)
+    //     //update()
+    //  }
+    //   else{
+    //     items[i].classList.remove("hidden");
+    //      items[i].classList.add("visible")
+    //      console.log(2)
+    //      //update()
+    //   }
+   //items[i].style.left = items[i].basicLeft + 100  + 'px';
+    items[i].style.transform = "translateX("+(100 * phase)+"px)"
   }
   window.performance.mark("mark_end_frame");
   window.performance.measure("measure_frame_duration", "mark_start_frame", "mark_end_frame");
