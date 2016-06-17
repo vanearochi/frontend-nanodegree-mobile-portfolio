@@ -92,7 +92,7 @@ gulp.task('html', function(){
 
 var imagemin = require('gulp-imagemin');
 gulp.task('imagemin', function(){
-	return gulp.src('img/*')
+	return gulp.src('images/*')
 	.pipe(imagemin())
 	.pipe(gulp.dest('dist/img'))
 
