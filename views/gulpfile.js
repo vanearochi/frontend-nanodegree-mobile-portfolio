@@ -14,7 +14,7 @@ var gutil = require('gulp-util'),
 	htmlmin = require('gulp-htmlmin');
 
 gulp.task('coffee', function(){
-	gulp.src('js/perfmatters.js')
+	gulp.src('js/main.js')
 		.pipe(coffee({bare: true})
 			.on('error', gutil.log))
 		.pipe(gulp.dest('dist'))
@@ -24,10 +24,10 @@ gulp.task('coffee', function(){
 var useref = require('gulp-useref');
 
 gulp.task('useref', function(){
-  return gulp.src('index.html')
+  return gulp.src('pizza.html')
     .pipe(useref())
-    .pipe(gulpIf('*.js', uglify()))
-    .pipe(gulpIf('*.css', cssnano()))
+    .pipe(gulpIf('js/*', uglify()))
+    .pipe(gulpIf('css/*.css', cssnano()))
     .pipe(gulp.dest('dist'))
 
 });
