@@ -430,7 +430,7 @@ var pizzaElementGenerator = function(i) {
   //TODO comprimir imagen pizza
   //Adding attr to the image container
   pizzaImageContainer.classList.add("col-md-6");
-  pizzaImage.src = "images/pizza.png";
+  pizzaImage.src = "images/pizza1.png";
   pizzaImage.classList.add("img-responsive");
   pizzaImageContainer.appendChild(pizzaImage);
   pizzaContainer.appendChild(pizzaImageContainer);
@@ -652,7 +652,7 @@ function createElem(htmlElement){
   for (var i = 0; i < 40; i++) {
     var elem = createElem('img');
     elem.className = 'mover';
-    elem.src = "images/pizza.png";
+    elem.src = "images/pizza1.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
