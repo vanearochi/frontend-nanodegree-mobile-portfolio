@@ -13,7 +13,7 @@ body {
 }
 
 input {
-  background: grey;
+
   font-size: 18px;
 }
 
@@ -33,7 +33,6 @@ form {
   position: fixed;
   width: 256px;
   z-index: -1;
-  //transition: transform 0.1s;
   will-change: transform;
 }
 
@@ -52,12 +51,3 @@ form {
   background-color: rgba(240, 60, 60, 0.8);
 }
 
-/*.hidden {
-   transform: translateX(50px);
-   color:blue;
-}
-
-.visible {
-  transform: translateX(30px);
-
-}*/

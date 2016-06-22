@@ -1,12 +1,5 @@
-//onmessage = function(e) {
-  //console.log('Message received from main script');
-  //console.log(e.data.Items, e.data.ingArr)
-  // var totalIngredients="";
-  // var ingredientItemizer = function(string) {
-  // return "<li>" + string + "</li>";
-  // };
 
- var adjectives = ["dark", "color", "whimsical", "shiny", "noisy", "apocalyptic", "insulting", "praise", "scientific"];  // types of adjectives for pizza titles
+var adjectives = ["dark", "color", "whimsical", "shiny", "noisy", "apocalyptic", "insulting", "praise", "scientific"];  // types of adjectives for pizza titles
 var nouns = ["animals", "everyday", "fantasy", "gross", "horror", "jewelry", "places", "scifi"];
 function getAdj(x){
   switch(x) {
@@ -266,8 +259,8 @@ pizzaIngredients.crusts = [
 ];
 
 String.prototype.capitalize = function() {
+
   return this.charAt(0).toUpperCase() + this.slice(1);
-  //console.log(this.charAt(0).toUpperCase() + this.slice(1));
 };                // types of nouns for pizza titles
 
 function randomName() {
@@ -275,139 +268,59 @@ function randomName() {
   var randomNumberAdj = parseInt(Math.random() * adjectives.length);
   var randomNumberNoun = parseInt(Math.random() * nouns.length);
    for(var i = 0; i < 100; i++){
-    //console.log(i)
    generator(adjectives[randomNumberAdj], nouns[randomNumberNoun], i);
   }
 }
 
 // Generates random numbers for getAdj and getNoun functions and returns a new pizza name
 function generator(adj, noun, i) {
-  //console.log(adj)
+
   var adjectives = getAdj(adj);
-  //console.log(adjectives)
   var nouns = getNoun(noun);
-  //console.log(nouns)
   var randomAdjective = parseInt(Math.random() * adjectives.length);
-  //console.log(randomAdjective)
   var randomNoun = parseInt(Math.random() * nouns.length);
   var name = "The " + adjectives[randomAdjective].capitalize() + " " + nouns[randomNoun].capitalize();
-  //console.log(name)
-  //return name;
+
   makeRandomPizza(name, i)
-  //postMessage({"title": name, "i": i})
 }
-   //for(var i = 0; i < e.data.Items; i++ ){
-     //var random= Math.floor((Math.random() * e.data.ingArr))
-     //var randomIngredient = e.data.arrIngredient[random]
-      //totalIngredients = totalIngredients + "" + ingredientItemizer(randomIngredient);
-  //var bla = 2+e.data
-  //var phase = Math.sin((e.data.scroll / 1250) + (e.data.index % 5));
-  console.log('Posting message back to main script');
-  randomName()
-   function ingredientItemizer (string) {
+
+randomName()
+
+function ingredientItemizer (string) {
+
   return "<li>" + string + "</li>";
 };
 
-  function selectRandomIngredient (ingredient, numItems){
+function selectRandomIngredient (ingredient, numItems){
   var ingredientArray = pizzaIngredients[ingredient];
   var ingredientArrayLength = ingredientArray.length;
   var totalIngredients = "";
-  //console.log(totalIngredients)
-  // workers.postMessage({ "index": i});
-  //   workers.onmessage = function(e){
-
-  //     //var si = e.data; console.log(e)
-  //     var phase = e.data;
-  //     console.log(phase);workers
-
-
-  //   }
 
   for(var i = 0; i < numItems; i++ ){
 
     var randomIngredient = ingredientArray[Math.floor((Math.random() * ingredientArrayLength)) ]
     totalIngredients = totalIngredients + "" + ingredientItemizer(randomIngredient);
-    //console.log(totalIngredients);
-
   }
-  //console.log(totalIngredients);
+
   return totalIngredients;
 }
-//selectRandomIngredient("meats", 3);
-// These functions return a string of a random ingredient from each respective category of ingredients.
-//TODO put all select function on a single function
-// var selectRandomMeat = function() {
-//   var randomMeat = pizzaIngredients.meats[Math.floor((Math.random() * pizzaIngredients.meats.length))];
-//   return randomMeat;
-// };
 
-// var selectRandomNonMeat = function() {
-//   var randomNonMeat = pizzaIngredients.nonMeats[Math.floor((Math.random() * pizzaIngredients.nonMeats.length))];
-//   return randomNonMeat;
-// };
+function numberOfEachIngredient (qty){
 
-// var selectRandomCheese = function() {
-//   var randomCheese = pizzaIngredients.cheeses[Math.floor((Math.random() * pizzaIngredients.cheeses.length))];
-//   return randomCheese;
-// };
-
-// var selectRandomSauce = function() {
-//   var randomSauce = pizzaIngredients.sauces[Math.floor((Math.random() * pizzaIngredients.sauces.length))];
-//   return randomSauce;
-// };
-
-// var selectRandomCrust = function() {
-//   var randomCrust = pizzaIngredients.crusts[Math.floor((Math.random() * pizzaIngredients.crusts.length))];
-//   return randomCrust;
-// };
-
-
-
- function numberOfEachIngredient (qty){
    return Math.floor((Math.random() * qty));
 }
 
 // Returns a string with random pizza ingredients nested inside <li> tags
- function makeRandomPizza(name, i) {
+function makeRandomPizza(name, i) {
   var pizza = "";
-
-  //TODO could this be in a Web worker?  look for create a single loop instead the 3 for below
-
   var numberOfMeats = numberOfEachIngredient(4);
-
   var numberOfNonMeats =numberOfEachIngredient(3);
   var numberOfCheeses = numberOfEachIngredient(2);
   var a = selectRandomIngredient("sauces", 1);
-  //console.log(a)
 
    pizza = selectRandomIngredient("meats", numberOfMeats) + selectRandomIngredient("nonMeats", numberOfNonMeats) +
    selectRandomIngredient("cheeses", numberOfCheeses) + selectRandomIngredient("sauces", 1) +
    selectRandomIngredient("crusts", 1);
-   //console.log(pizza)
-   postMessage({"title": name, "pizza":pizza, "i":i})
 
-  // for (var i = 0; i < numberOfMeats; i++) {
-  //   pizza = pizza + ingredientItemizer(selectRandomMeat());
-  //   console.log(pizza +2);
-  // }
-
-  // for (var j = 0; j < numberOfNonMeats; j++) {
-  //   pizza = pizza + ingredientItemizer(selectRandomNonMeat());
-  // }
-
-  // for (var k = 0; k < numberOfCheeses; k++) {
-  //   pizza = pizza + ingredientItemizer(selectRandomCheese());
-  // },
-
-  // pizza = pizza + ingredientItemizer(selectRandomSauce());
-  // pizza = pizza + ingredientItemizer(selectRandomCrust());
-
-  //return pizza;
-  //
+   postMessage({"title": name, "pizza":pizza, "i":i});
 };
-  //}
-  //postMessage(totalIngredients)
-  //var totalIngredients = ""
-
-
-//}
