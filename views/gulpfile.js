@@ -1,16 +1,12 @@
+
 var gulp = require('gulp');
 
-gulp.task("alo", function(){
-  console.log("bla")
-})
 var gutil = require('gulp-util'),
 	connect = require('gulp-connect'),
 	uglify = require('gulp-uglify'),
-	gulpIf = require('gulp-if'),
 	cssnano = require('gulp-cssnano'),
 	htmlmin = require('gulp-htmlmin');
   imagemin = require('gulp-imagemin');
-  useref = require('gulp-useref');
   ngrok = require('ngrok');
 
 gulp.task('ngrok-url', function(cb) {
@@ -47,6 +43,8 @@ gulp.task('htmlmin', function() {
     .pipe(gulp.dest('dist'))
 });
 
+/** I took some tips from: https://css-tricks.com/gulp-for-beginners
+  * https://una.im/gulp-local-psi/#💁 */
 
 
 

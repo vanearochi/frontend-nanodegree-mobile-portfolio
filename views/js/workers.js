@@ -1,6 +1,11 @@
 
 var adjectives = ["dark", "color", "whimsical", "shiny", "noisy", "apocalyptic", "insulting", "praise", "scientific"];  // types of adjectives for pizza titles
 var nouns = ["animals", "everyday", "fantasy", "gross", "horror", "jewelry", "places", "scifi"];
+
+/** @function getAdj
+  * Pulls noun out of array using random number sent from generator.
+  * @returns adjective
+*/
 function getAdj(x){
   switch(x) {
     case "dark":
@@ -64,7 +69,9 @@ function getAdj(x){
   }
 }
 
-// Pulls noun out of array using random number sent from generator
+/** @function getNoun
+Pulls noun out of array using random number sent from generator
+*/
 function getNoun(y) {
   switch(y) {
     case "animals":
@@ -258,27 +265,55 @@ pizzaIngredients.crusts = [
   "Stuffed Crust"
 ];
 
+/** @function capitalize
+  * Capitalizes first letter of each word.
+  * Name generator pulled from http://saturdaykid.com/usernames/generator.html.
+*/
 String.prototype.capitalize = function() {
 
   return this.charAt(0).toUpperCase() + this.slice(1);
-};                // types of nouns for pizza titles
+};
 
-function randomName() {
+var adjLength = adjectives.length,
+    nounLength = nouns.length;
 
-  var randomNumberAdj = parseInt(Math.random() * adjectives.length);
-  var randomNumberNoun = parseInt(Math.random() * nouns.length);
-   for(var i = 0; i < 100; i++){
-   generator(adjectives[randomNumberAdj], nouns[randomNumberNoun], i);
+/** @function randomNumber.
+  * @param {integer} arrLength - the length of an array.
+  * @returns {integer} randomNumber.
+*/
+function randomNumber(arrLength) {
+
+    var randomNumber = parseInt(Math.random() * arrLength);
+    return randomNumber;
+}
+
+/** @function randomName.
+  * Chooses random adjective and random noun the number of pizzas desired.
+*/
+function randomName(){
+
+  for(var i = 0; i < 100; i++) {
+
+    var randomNumberAdj = randomNumber(adjLength);
+    var randomNumberNoun = randomNumber(nounLength);
+
+    generator(adjectives[randomNumberAdj], nouns[randomNumberNoun], i);
   }
 }
 
-// Generates random numbers for getAdj and getNoun functions and returns a new pizza name
+/** @function generator.
+  * @param {string} adj - adjective.
+  * @param {string} noun - noun.
+  * @param {integer} i - index.
+  * Generates random numbers for getAdj and getNoun functions and returns a new pizza name.
+  * Calls makeRandomPizza
+*/
 function generator(adj, noun, i) {
 
   var adjectives = getAdj(adj);
   var nouns = getNoun(noun);
-  var randomAdjective = parseInt(Math.random() * adjectives.length);
-  var randomNoun = parseInt(Math.random() * nouns.length);
+  var randomAdjective = randomNumber(adjLength);
+  var randomNoun = randomNumber(nounLength);
   var name = "The " + adjectives[randomAdjective].capitalize() + " " + nouns[randomNoun].capitalize();
 
   makeRandomPizza(name, i)
@@ -286,12 +321,22 @@ function generator(adj, noun, i) {
 
 randomName()
 
+/** @function ingredientItemizer.
+  * @param {string} string - Ingredient's name.
+  * @returns {string} HTML string.
+*/
 function ingredientItemizer (string) {
 
   return "<li>" + string + "</li>";
 };
 
-function selectRandomIngredient (ingredient, numItems){
+/** @function selectRandomIngredient.
+  * @param {string} ingredient - Ingredient category name to select off.
+  * @param {string} numItems - The number of items to be selected from the ingredients category.
+  * @returns {string} totalIngredients - Random ingredient from a respective category of ingredients.
+*/
+function selectRandomIngredient (ingredient, numItems) {
+
   var ingredientArray = pizzaIngredients[ingredient];
   var ingredientArrayLength = ingredientArray.length;
   var totalIngredients = "";
@@ -305,13 +350,22 @@ function selectRandomIngredient (ingredient, numItems){
   return totalIngredients;
 }
 
-function numberOfEachIngredient (qty){
+/** @function numberOfEachIngredient.
+  * @param {integer} qty - The top limit of the range.
+  * @returns {integer} - A random number between 0 and qty.
+*/
+function numberOfEachIngredient(qty) {
 
    return Math.floor((Math.random() * qty));
 }
 
-// Returns a string with random pizza ingredients nested inside <li> tags
+/** @function makeRandomPizza.
+  * @param {string} name - Pizza name.
+   * @param {integer} i - index of the pizza created.
+  * returns pizza name, pizza ingredients and pizza index to main.js
+*/
 function makeRandomPizza(name, i) {
+
   var pizza = "";
   var numberOfMeats = numberOfEachIngredient(4);
   var numberOfNonMeats =numberOfEachIngredient(3);
