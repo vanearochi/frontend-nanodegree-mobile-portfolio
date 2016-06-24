@@ -16,6 +16,7 @@ This project has the development version and the distribution version. You can s
 
 	* Image optimization.
 	* HTML, CSS and JS minification with gulp (htmlmin, cssnano and uglify).
+	* Inline CSS.
 	* Web workers to create each pizza (title and ingredients).
 	* Animation improves using requestAnimationFrame.
 	* Deployment trough firebase to see real web times.
