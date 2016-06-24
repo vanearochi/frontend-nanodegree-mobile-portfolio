@@ -316,10 +316,10 @@ function generator(adj, noun, i) {
   var randomNoun = randomNumber(nounLength);
   var name = "The " + adjectives[randomAdjective].capitalize() + " " + nouns[randomNoun].capitalize();
 
-  makeRandomPizza(name, i)
+  makeRandomPizza(name, i);
 }
 
-randomName()
+randomName();
 
 /** @function ingredientItemizer.
   * @param {string} string - Ingredient's name.
@@ -328,7 +328,7 @@ randomName()
 function ingredientItemizer (string) {
 
   return "<li>" + string + "</li>";
-};
+}
 
 /** @function selectRandomIngredient.
   * @param {string} ingredient - Ingredient category name to select off.
@@ -343,7 +343,7 @@ function selectRandomIngredient (ingredient, numItems) {
 
   for(var i = 0; i < numItems; i++ ){
 
-    var randomIngredient = ingredientArray[Math.floor((Math.random() * ingredientArrayLength)) ]
+    var randomIngredient = ingredientArray[Math.floor((Math.random() * ingredientArrayLength)) ];
     totalIngredients = totalIngredients + "" + ingredientItemizer(randomIngredient);
   }
 
@@ -377,4 +377,4 @@ function makeRandomPizza(name, i) {
    selectRandomIngredient("crusts", 1);
 
    postMessage({"title": name, "pizza":pizza, "i":i});
-};
+}

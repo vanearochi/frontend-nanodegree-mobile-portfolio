@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "views",
+    "public": "dist",
     "rewrites": [
       {
         "source": "**",

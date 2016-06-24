@@ -1,28 +1,15 @@
+
 var gulp = require('gulp');
 
-gulp.task('hello', function() {
-
-  console.log("bla")
-  .pipe(connect.reload())
-});
-var gutil = require('gulp-util'),
-	coffee = require('gulp-coffee'),
-	connect = require('gulp-connect'),
-	uglify = require('gulp-uglify'),
-	gulpIf = require('gulp-if'),
-	cssnano = require('gulp-cssnano'),
-	htmlmin = require('gulp-htmlmin'),
+var connect = require('gulp-connect'),
+  uglify = require('gulp-uglify'),
+  cssnano = require('gulp-cssnano'),
   useref = require('gulp-useref'),
+  htmlmin = require('gulp-htmlmin'),
+  gulpIf = require('gulp-if'),
+  imagemin = require('gulp-imagemin'),
   ngrok = require('ngrok');
 
-gulp.task('useref', function(){
-
-  return gulp.src('index.html')
-    .pipe(useref())
-    .pipe(gulpIf('*.js', uglify()))
-    .pipe(gulpIf('*.css', cssnano()))
-    .pipe(gulp.dest('dist'))
-});
 
 gulp.task('ngrok-url', function(cb) {
   return ngrok.connect(8080, function (err, url) {
@@ -32,30 +19,24 @@ gulp.task('ngrok-url', function(cb) {
   });
 });
 
-// gulp.task('connect', function(){
-// 	connect.server({
-// 		root: 'dist',
-// 		livereload: true
-// 	})
-// });
+gulp.task("jsmin", function(){
+  return gulp.src("js/*.js")
+  .pipe(uglify())
+  .pipe(gulp.dest("dist/js"))
+})
 
-var htmlSources = ['dist/*.html']
-
-gulp.task('html', function(){
-	gulp.src(htmlSources)
-		.pipe(connect.reload())
-});
-
-var imagemin = require('gulp-imagemin');
 gulp.task('imagemin', function(){
-	return gulp.src('img/*.+(png|jpg|jpeg|gif|svg)')
-	.pipe(imagemin())
-	.pipe(gulp.dest('dist/img'))
+  return gulp.src('images/*.+(png|jpg|jpeg|svg)')
+  .pipe(imagemin())
+  .pipe(gulp.dest('dist/img'))
 
 });
 
-var cache = require('gulp-cache');
-
+gulp.task("cssmin", function(){
+  return gulp.src('css/*.css')
+  .pipe(cssnano())
+  .pipe(gulp.dest('dist/css'))
+})
 
 
 gulp.task('htmlmin', function() {
@@ -63,6 +44,11 @@ gulp.task('htmlmin', function() {
     .pipe(htmlmin({collapseWhitespace: true}))
     .pipe(gulp.dest('dist'))
 });
+
+/** I took some tips from: https://css-tricks.com/gulp-for-beginners
+  * https://una.im/gulp-local-psi/#💁 */
+
+
 
 
 
